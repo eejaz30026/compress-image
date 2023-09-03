@@ -7,16 +7,16 @@ const app = express();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-app.use(express.static("./temp"));
+app.use(express.static("./uploads"));
 
 app.get("/", (req, res) => {
   return res.json({ message: "Hello world 🔥🇵🇹" });
 });
 
 app.post("/", upload.single("picture"), async (req, res) => {
-  fs.access("./temp", (error) => {
+  fs.access("./uploads", (error) => {
     if (error) {
-      fs.mkdirSync("./temp");
+      fs.mkdirSync("./uploads");
     }
   });
   const { buffer, originalname } = req.file;
@@ -29,15 +29,15 @@ app.post("/", upload.single("picture"), async (req, res) => {
   await sharp(buffer)
     .resize(50, 50)
     .png({ quality: 20 })
-    .toFile("./temp/" + ref);
+    .toFile("./uploads/" + ref);
 
   const link = `http://localhost:3000/${ref}`;
   return res.json({ link });
 });
 
-app.listen(5000, () => {
-    console.log("Running on port 5000.");
-  });
-  
-  // Export the Express API
-  module.exports = app;
+app.listen(3000, () => {
+  console.log("Running on port 3000.");
+});
+
+// Export the Express API
+module.exports = app;
