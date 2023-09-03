@@ -7,16 +7,16 @@ const app = express();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-app.use(express.static("./uploads"));
+app.use(express.static("./temp"));
 
 app.get("/", (req, res) => {
   return res.json({ message: "Hello world 🔥🇵🇹" });
 });
 
 app.post("/", upload.single("picture"), async (req, res) => {
-  fs.access("./uploads", (error) => {
+  fs.access("./temp", (error) => {
     if (error) {
-      fs.mkdirSync("./uploads");
+      fs.mkdirSync("./temp");
     }
   });
   const { buffer, originalname } = req.file;
@@ -29,7 +29,7 @@ app.post("/", upload.single("picture"), async (req, res) => {
   await sharp(buffer)
     .resize(50, 50)
     .png({ quality: 20 })
-    .toFile("./uploads/" + ref);
+    .toFile("./temp/" + ref);
 
   const link = `http://localhost:3000/${ref}`;
   return res.json({ link });
