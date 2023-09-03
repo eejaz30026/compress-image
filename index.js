@@ -35,4 +35,9 @@ app.post("/", upload.single("picture"), async (req, res) => {
   return res.json({ link });
 });
 
-app.listen(3000);
+app.listen(5000, () => {
+    console.log("Running on port 5000.");
+  });
+  
+  // Export the Express API
+  module.exports = app;
