@@ -18,7 +18,7 @@ app.use(express.static("./uploads"));
 
 
 
-app.get('/fetch-xml-data', async (req, res) => {
+app.post('/fetch-xml-data', async (req, res) => {
   const apiUrl = "https://api23.sapsf.com/odata/v2/Photo?$filter=userId eq '28459'&photoType=20&$format=json"; // Replace with the actual API URL
   const username = 'CPIADMIN1@nationalagD';
   const password = 'Nttdata@2023';
